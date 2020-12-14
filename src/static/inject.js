@@ -8,7 +8,7 @@ const inject = function (selector, data, append, to)
 {
     if (typeOf(selector, 'array')) {
         selector.forEach((elem) => {
-            inject(elem, data, append, to);
+            inject(elem, data, true, to);
         });
         return;
     }

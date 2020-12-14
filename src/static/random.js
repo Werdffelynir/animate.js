@@ -4,7 +4,7 @@
  * @param max
  * @returns {number}
  */
-import {ABC, NUMBERS} from "./abc";
+import {ABC, LETTER_CONSONANT, LETTER_VOWEL, NUMBERS} from "./abc";
 
 
 export const random = function (min, max) {
@@ -36,14 +36,29 @@ export const randomNumber = function (size = 6) {
     return parseInt(Array(size).fill(0).map(i => Math.floor(Math.random() * 10)).join(''));
 };
 
-export const randomString = function (size = 6) {
+export const randomString = function (size = 6, withNumbers = false) {
     let i, string = '';
-    const abs = (ABC + NUMBERS).toLowerCase().split('');
+    const abs = withNumbers
+        ? ABC + NUMBERS.toLowerCase().split(',')
+        : ABC.toLowerCase().split(',');
     for (i = size; i > 0; i--) {
-        string +=
-            abs[Math.floor(Math.random() * abs.length)];
+        string += abs[Math.floor(Math.random() * abs.length)];
     }
     return string;
+};
+
+export const randomHumanizeString = function (size = 6) {
+    let i, string = '';
+    const consonant =  LETTER_CONSONANT.toLowerCase().split(',');
+    const vowel =  LETTER_VOWEL.toLowerCase().split(',');
+    const vowelFirst = (Math.random() * 10) > 5;
+    for (i = size / 2 + 1; i > 0; i --) {
+        let s1 = consonant[Math.floor(Math.random() * consonant.length)];
+        let s2 = vowel[Math.floor(Math.random() * vowel.length)];
+        string += vowelFirst ? s1 + s2 : s2 + s1;
+    }
+
+    return string.substring(0, size);
 };
 
 /**

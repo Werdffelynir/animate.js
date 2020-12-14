@@ -2,6 +2,50 @@ import position from "../static/position";
 import copy from "../static/copy";
 import clone from "../static/clone";
 
+export class ClipClass {
+    constructor(element) {
+        this.position = position(element);
+        this.element = position.element;
+        this.setProperties();
+    }
+
+    moveTo(parent) {
+        if (parent instanceof Clip) {
+            return parent.element.appendChild(this.element);
+        }
+        if (parent instanceof Node) {
+            return parent.appendChild(this.element);
+        }
+    }
+
+    copyTo(parent) {
+        this.element = copy(this.element);
+        this.moveTo(parent);
+    }
+
+    on (event, callback) {
+        this.element.addEventListener(event, callback)
+    }
+
+    clone () {
+        return clone(this);
+    }
+
+    setProperties() {
+        Object.keys(this.position).map(function (key) {
+            if (typeof this[key] === "undefined") {
+                this[key] = this.position[key]
+            }
+        });
+
+        if (this.element instanceof Node) {
+            const parent = position(this.element.parentNode);
+            this.x = this.x - parent.x;
+            this.y = this.y - parent.y;
+            this.element.setAttribute('data-clip', (this.element.id || 'clip'));
+        }
+    }
+}
 /**
  *
  * @param element

@@ -1,9 +1,12 @@
 
 const getWindow = function () {
-    if (window)
+
+    if (typeof window !== 'undefined') {
         return window;
-    else
+    } else {
+        // return global ? global : {};
         throw new Error('window object not exist!');
+    }
 };
 
 export default getWindow;

@@ -1,9 +1,12 @@
 
 const getDocument = function () {
-    if (document)
+
+    if (typeof document !== 'undefined') {
         return document;
-    else
+    } else {
+        // return global ? global : {};
         throw new Error('document object not exist!');
+    }
 };
 
 export default getDocument;

@@ -3,6 +3,8 @@ import createElement from "../static/createElement";
 import createFragment from "../static/createFragment";
 import css from "../static/css";
 import domLoaded from "../static/domLoaded";
+import getDocument from "../static/getDocument";
+import getWindow from "../static/getWindow";
 import inject from "../static/inject";
 import str2node from "../static/str2node";
 import str2fragment from "../static/str2fragment";
@@ -30,7 +32,7 @@ import number2string from "../static/number2string";
 import on from "../static/on";
 import position from "../static/position";
 import positionMouse from "../static/positionMouse";
-import random, {randomColor, randomItem, randomNumber, randomString} from "../static/random";
+import random, {randomColor, randomItem, randomNumber, randomString, randomHumanizeString} from "../static/random";
 import redirect from "../static/redirect";
 import typeOf from "../static/typeOf";
 import typeOfStrict from "../static/typeOfStrict";
@@ -47,6 +49,8 @@ const Static = {
     createFragment,
     css,
     domLoaded,
+    getDocument,
+    getWindow,
     inject,
     str2node,
     str2fragment,
@@ -80,6 +84,7 @@ const Static = {
     randomItem,
     randomNumber,
     randomString,
+    randomHumanizeString,
     redirect,
     typeOf,
     typeOfStrict,

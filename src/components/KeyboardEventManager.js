@@ -1,4 +1,11 @@
-
+/*
+const keyboard = KeyboardEventManager();
+keyboard.each(EVENT_NAME, function (event) {})
+keyboard.withConditionKey
+keyboard.press
+keyboard.up
+keyboard.down
+*/
 const KeyboardEventManager = function ()
 {
     const storage = {};
