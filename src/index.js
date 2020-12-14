@@ -9,6 +9,7 @@ import Timer from "./components/Timer.js";
 import RoxyListener from "./components/RoxyListener.js";
 import Roxy from "./components/Roxy.js";
 import Static from './static';
+import AnimationFrame from "./components/AnimationFrame";
 
 const Animate = {
     Clip,
@@ -20,6 +21,7 @@ const Animate = {
     Timer,
     RoxyListener,
     Roxy,
+    AnimationFrame,
 };
 
 
