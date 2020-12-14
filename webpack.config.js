@@ -4,7 +4,7 @@ const process = require('process');
 
 const config = {
     entry: {
-        na: './src/index.js',
+        animate: './src/index.js',
     },
     output: {
         filename: '[name].bundle.js',
