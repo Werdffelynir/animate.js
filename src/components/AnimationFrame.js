@@ -1,6 +1,21 @@
 
-const AnimationFrame = function () {
-    // this.constructor = function Animation() {};
+/*
+const animation = AnimationFrame();
+pause();
+start(function(progress){
+    if (Math.round(progress) % 1000 === 0) {
+        // do something
+    }
+});
+cancel();
+*/
+/**
+ *
+ * @returns {{duration: number, startpaly: number, paused: boolean, delay: number, requestId: number, callback: number, progress: number}}
+ * @constructor
+ */
+const AnimationFrame = function ()
+{
     const root = {
         requestId: 0,
         startpaly: 0,
@@ -46,6 +61,5 @@ const AnimationFrame = function () {
 
     return root;
 };
-
 
 export default AnimationFrame;

@@ -1,7 +1,5 @@
 import typeOf from "./typeOf";
 import isNode from "./isNode";
-import typeOfStrict from "./typeOfStrict";
-
 
 const copy = function (src, instance)
 {
@@ -16,7 +14,6 @@ const copy = function (src, instance)
 
     if (typeOf(src, 'object')) {
         // return Object.assign({}, src);
-        console.log(src, instance)
         let result = {};
         Object.keys(src).forEach((key) => {
             let value = src[key];

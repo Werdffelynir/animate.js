@@ -42,6 +42,12 @@ import clone from "../static/clone";
 import toObject from "../static/toObject";
 import isHTMLString from "../static/isHTMLString";
 import createArray from "../static/createArray";
+import isString from "../static/isString";
+import exists from "../static/exists";
+import isDefined from "../static/isDefined";
+import loadBlobfile from "../static/loadBlobfile";
+import loadJSON from "../static/loadJSON";
+import loadTextfile from "../static/loadTextfile";
 
 const Static = {
     attr,
@@ -94,6 +100,12 @@ const Static = {
     toObject,
     isHTMLString,
     createArray,
+    isString,
+    exists,
+    isDefined,
+    loadBlobfile,
+    loadJSON,
+    loadTextfile,
 };
 
 export default Static;

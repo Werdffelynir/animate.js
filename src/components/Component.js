@@ -5,6 +5,8 @@ import search from "../static/search";
 import Roxy from "./Roxy";
 import clone from "../static/clone";
 import {randomHumanizeString, randomString} from "../static/random";
+import isHTMLString from "../static/isHTMLString";
+import query from "../static/query";
 
 
 export const ComponentClassProperties = {
@@ -60,8 +62,13 @@ export class ComponentClass
             this.before();
         }
         if (typeof this.element === 'string') {
-            this.element = str2node(this.element);
+            if(isHTMLString(this.element)) {
+                this.element = str2node(this.element);
+            } else {
+                this.element = query(this.element);
+            }
         }
+
         if (this.methods && Object.values(this.methods).length) {
             Object.keys(this.methods).forEach((key) => {
                 if (typeof this.methods[key] === 'function') {
@@ -230,7 +237,11 @@ const Component = function (config)
         }
 
         if (typeof comp.template === 'string') {
-            comp.template = str2node(comp.template);
+            if(isHTMLString(comp.template)) {
+                comp.template = str2node(comp.template);
+            } else {
+                comp.template = query(comp.template);
+            }
         }
 
         if (comp.methods && Object.values(comp.methods).length) {

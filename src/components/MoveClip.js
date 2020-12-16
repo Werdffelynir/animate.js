@@ -1,10 +1,24 @@
 import Clip from "./Clip";
 import toObject from "../static/toObject";
+import str2node from "../static/str2node";
+import isNode from "../static/isNode";
+import isHTMLString from "../static/isHTMLString";
+import query from "../static/query";
 
-export class MoveClipClass {
-    constructor(properties) {
+export class MoveClipClass
+{
+    constructor(properties)
+    {
         const { element } = properties;
-        const clip = Clip(element);
+
+        // if (properties.template) {
+        //     this.template = properties.template;
+        // }
+        // if (properties.element) {
+        //     this.element = properties.element;
+        // }
+
+        const clip = Clip(this.element);
 
         this.properties = properties;
         this.element = clip.element;
@@ -38,6 +52,19 @@ export class MoveClipClass {
         this.element.style.height = value + 'px';
         this.clip.height = value;
     }
+
+    // set template (template) {
+    //     if (typeof template === 'string') {
+    //         this.element = str2node(template);
+    //     }
+    //     if (isNode(template)) {
+    //         this.element = template;
+    //     }
+    // }
+    // get template () {
+    //     return this.element;
+    // }
+
     clone (append = false) {
         const props = toObject(this);
         props.element = this.element.cloneNode(true);
@@ -54,15 +81,42 @@ export class MoveClipClass {
         });
         this.element.setAttribute('data-miveclip', (this.properties.id || 'miveclip'));
     }
+
+    style(object) {
+        Object.keys(object).forEach((key) => {
+            if (this.element.style[key] !== undefined) {
+                this.element.style[key] = object[key];
+            }
+        });
+    }
 }
 
-const MoveClip = function (config) {
+const MoveClip = function (config)
+{
     const { element } = config;
-    const clip = Clip( element );
+
+    // if (config.template) {
+    //     if (typeof config.template === 'string') {
+    //         if (isHTMLString(config.template)) {
+    //             element = str2node(config.template);
+    //         } else {
+    //             element = query(config.template);
+    //         }
+    //     }
+    //
+    //     if (isNode(config.template)) {
+    //         element = config.template;
+    //     }
+    //
+    //     delete config.template;
+    // }
+
+    const clip = Clip(element);
 
     if(!clip.element) {
         throw new Error('Property [element] not fond!');
     }
+
     clip.element.setAttribute('data-miveclip', config.id || 'miveclip');
 
     const root = {
@@ -94,6 +148,14 @@ const MoveClip = function (config) {
         },
         get height() {
             return clip.height
+        },
+
+        style(object) {
+            Object.keys(object).forEach((key) => {
+                if (root.element.style[key] !== undefined) {
+                    root.element.style[key] = object[key];
+                }
+            });
         },
     };
 

@@ -85,6 +85,14 @@ const Clip = function (element)
         return clone(this);
     };
 
+    root.style = function (object) {
+        Object.keys(object).forEach((key) => {
+            if (root.element.style[key] !== undefined) {
+                root.element.style[key] = object[key];
+            }
+        });
+    };
+
     return root;
 };
 

@@ -1,31 +1,25 @@
+/*
+const RxState = Roxy({
+    title: '',
+    body: '',
+});
+
+RxState.event((key, values)=>{
+    if (key === '') {}
+    inject('#' + key, values);
+});
+
+RxState.proxy.title = 'First value';
+RxState.proxy.body = 'Test body text';
+
+Timer.timeout(() => {
+    RxState.dispatch('title', 'Hello friend');
+    RxState.dispatch('body', 'Do you happy now?');
+}, 2000);
+
+*/
+
 /**
- *
-
-
- const rxData = Roxy({
-        title: '',
-        body: '',
-    });
-
- function setTo(id, context) {
-        const elem = query('#' + id);
-        inject(elem, context);
-    }
-
- rxData.event((key, values)=>{
-        setTo(key, values);
-    });
-
- Timer.timeout(() => {
-        rxData.dispatch('title', 'Hello friend');
-        rxData.dispatch('body', 'Do you happy now?');
-    }, 2000);
-
- Timer.timeout(() => {
-        rxData.dispatch('body', 'No yes ofcourse');
-    }, 4000);
- *
- *
  * @param payload
  * @returns {{proxy: *, set(*=, *=): *, get(*): *, action(*=, *=): *, fill(*=, *=): *}|Roxy|{}|null|boolean}
  * @constructor

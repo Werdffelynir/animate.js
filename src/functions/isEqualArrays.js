@@ -1,5 +1,5 @@
 
-const isArraysIdentic = function (arr1, arr2) {
+const isEqualArrays = function (arr1, arr2) {
     if (arr1 === arr2)
         return true;
 
@@ -13,4 +13,4 @@ const isArraysIdentic = function (arr1, arr2) {
     return true;
 };
 
-export default isArraysIdentic;
+export default isEqualArrays;
