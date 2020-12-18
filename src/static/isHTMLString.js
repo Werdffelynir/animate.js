@@ -1,13 +1,14 @@
 // import DOMParser from 'DOMParser';
 
-const isHTMLString = function (value) {
-    // const parser = new DOMParser();
-    // const xmlDoc = parser.parseFromString(value, "text/xml");
-    // return xmlDoc;
+const isHTMLString = function (value, truest = false) {
 
-    const div = document.createElement('div');
-    div.innerHTML = value;
-    return !!div.childElementCount;
+    if (truest) {
+        const div = document.createElement('div');
+        div.innerHTML = value;
+        return !!div.childElementCount;
+    }
+
+    return value.trim().substring(0, 1) === '<';
 };
 
 export default isHTMLString;

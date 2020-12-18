@@ -12,6 +12,10 @@ import Roxy from "./components/Roxy.js";
 import Static from './static';
 import AnimationFrame from "./components/AnimationFrame";
 import Loader from "./components/Loader";
+import Matrix from "./components/Matrix";
+import Point from "./components/Point";
+import Rectangle from "./components/Rectangle";
+import Transform from "./components/Transform";
 
 const Animate = {
     Clip,
@@ -28,6 +32,10 @@ const Animate = {
     Roxy,
     AnimationFrame,
     Loader,
+    Matrix,
+    Point,
+    Rectangle,
+    Transform,
 };
 
 const RADIAN = 0.017453292519943295;

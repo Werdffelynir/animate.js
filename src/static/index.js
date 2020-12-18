@@ -18,7 +18,9 @@ import httpRequest from "../static/httpRequest";
 import defined from "../static/defined";
 import definedIn from "../static/definedIn";
 import each from "../static/each";
-import extend, {extendRecursive}  from "../static/extend";
+import extend, {
+    extendRecursive
+}  from "../static/extend";
 import isEmpty from "../static/isEmpty";
 import findObject from "../static/findObject";
 import findObjects from "../static/findObjects";
@@ -32,7 +34,13 @@ import number2string from "../static/number2string";
 import on from "../static/on";
 import position from "../static/position";
 import positionMouse from "../static/positionMouse";
-import random, {randomColor, randomItem, randomNumber, randomString, randomHumanizeString} from "../static/random";
+import random, {
+    randomColor,
+    randomItem,
+    randomNumber,
+    randomString,
+    randomHumanizeString
+} from "../static/random";
 import redirect from "../static/redirect";
 import typeOf from "../static/typeOf";
 import typeOfStrict from "../static/typeOfStrict";
@@ -48,6 +56,10 @@ import isDefined from "../static/isDefined";
 import loadBlobfile from "../static/loadBlobfile";
 import loadJSON from "../static/loadJSON";
 import loadTextfile from "../static/loadTextfile";
+import toHTML from "../static/toHTML";
+import toXML from "../static/toXML";
+import stylizer from "../static/stylizer";
+import uniqArray from "../static/uniqArray";
 
 const Static = {
     attr,
@@ -106,6 +118,10 @@ const Static = {
     loadBlobfile,
     loadJSON,
     loadTextfile,
+    toHTML,
+    toXML,
+    stylizer,
+    uniqArray,
 };
 
 export default Static;

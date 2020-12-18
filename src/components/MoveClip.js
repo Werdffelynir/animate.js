@@ -4,6 +4,9 @@ import str2node from "../static/str2node";
 import isNode from "../static/isNode";
 import isHTMLString from "../static/isHTMLString";
 import query from "../static/query";
+import node2str from "../static/node2str";
+import stylizer from "../static/stylizer";
+import isNumber from "../functions/isNumber";
 
 export class MoveClipClass
 {
@@ -91,26 +94,25 @@ export class MoveClipClass
     }
 }
 
+/*
+        return MoveClip({
+            element: `<div class="sprite rect"></div>`,
+            parent: AppClip,
+            x: 100,
+            y: 100,
+            init(){
+                this.parent.append(this.element);
+
+                this.transform = [
+                    'rotate(' + 45 +'deg)',
+                    'scale(0.5, 0.5)',
+                ];
+            },
+        })
+*/
 const MoveClip = function (config)
 {
     const { element } = config;
-
-    // if (config.template) {
-    //     if (typeof config.template === 'string') {
-    //         if (isHTMLString(config.template)) {
-    //             element = str2node(config.template);
-    //         } else {
-    //             element = query(config.template);
-    //         }
-    //     }
-    //
-    //     if (isNode(config.template)) {
-    //         element = config.template;
-    //     }
-    //
-    //     delete config.template;
-    // }
-
     const clip = Clip(element);
 
     if(!clip.element) {
@@ -120,7 +122,9 @@ const MoveClip = function (config)
     clip.element.setAttribute('data-miveclip', config.id || 'miveclip');
 
     const root = {
+        // clip: clip,
         element: clip.element,
+        initialized: false,
         set x(value) {
             root.element.style.marginLeft = value + 'px';
             clip.x = value;
@@ -151,21 +155,19 @@ const MoveClip = function (config)
         },
 
         style(object) {
-            Object.keys(object).forEach((key) => {
-                if (root.element.style[key] !== undefined) {
-                    root.element.style[key] = object[key];
-                }
-            });
+            stylizer(root.element, object);
         },
     };
 
+    delete config.element;
+    delete config.initialized;
     Object.keys(config).map(function (key) {
         root[key] = config[key]
     });
 
     if (typeof root.init === 'function' && !root.initialized){
         root.initialized = true;
-        root.init();
+        root.init.call(root);
     }
 
     root.clone = function (append = false) {
@@ -176,6 +178,29 @@ const MoveClip = function (config)
         }
         return MoveClip(cloneProperty);
     };
+
+    root.inject = function (elem, append = true) {
+        if (typeof elem === 'string') {
+            if (isHTMLString(elem)) {
+                elem = str2node(elem);
+            } else {
+                elem = query(elem);
+            }
+        }
+        root.element.appendChild(elem);
+    };
+
+    root.append = function (elem) {
+        root.inject(elem, true);
+    };
+
+    root.on = function (event, callback) {
+        root.element.addEventListener(event, callback)
+    };
+
+    // if (typeof root.complete === 'function'){
+    //     root.complete.call(root);
+    // }
 
     return root;
 };

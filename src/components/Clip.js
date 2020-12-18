@@ -1,6 +1,11 @@
 import position from "../static/position";
 import copy from "../static/copy";
 import clone from "../static/clone";
+import isHTMLString from "../static/isHTMLString";
+import node2str from "../static/node2str";
+import query from "../static/query";
+import stylizer from "../static/stylizer";
+import str2node from "../static/str2node";
 
 export class ClipClass {
     constructor(element) {
@@ -86,11 +91,22 @@ const Clip = function (element)
     };
 
     root.style = function (object) {
-        Object.keys(object).forEach((key) => {
-            if (root.element.style[key] !== undefined) {
-                root.element.style[key] = object[key];
+        stylizer(root.element, object);
+    };
+
+    root.inject = function (elem, append = true) {
+        if (typeof elem === 'string') {
+            if (isHTMLString(elem)) {
+                elem = str2node(elem);
+            } else {
+                elem = query(elem);
             }
-        });
+        }
+        root.element.appendChild(elem);
+    };
+
+    root.append = function (elem) {
+        root.inject(elem, true);
     };
 
     return root;
