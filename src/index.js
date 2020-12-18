@@ -20,12 +20,9 @@ import Transform from "./components/Transform";
 const Animate = {
     Clip,
     Component,
-    ComponentClass,
     KeyboardEventManager,
     MoveClip,
-    MoveClipClass,
     Scene,
-    SceneClass,
     StepsScene,
     Timer,
     RoxyListener,
