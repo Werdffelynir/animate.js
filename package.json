@@ -31,5 +31,8 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "optionalDependencies": {
+    "fsevents": "^2.2.1"
+  }
 }
