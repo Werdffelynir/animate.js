@@ -51,8 +51,6 @@ Animate.Static =
     Animate.Util =
         Static;
 
-if (getWindow()) {
-    getWindow().Animate = Animate;
-}
+// if (getWindow()) getWindow().Animate = Animate;
 
 export default Animate;
