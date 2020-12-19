@@ -36,6 +36,7 @@ const MoveClip = function (config)
         // clip: clip,
         element: clip.element,
         initialized: false,
+        completed: false,
         set x(value) {
             root.element.style.marginLeft = value + 'px';
             clip.x = value;
@@ -108,6 +109,11 @@ const MoveClip = function (config)
     root.on = function (event, callback) {
         root.element.addEventListener(event, callback)
     };
+
+    if (typeof root.complete === 'function' && !root.completed){
+        root.completed = true;
+        root.complete.call(root);
+    }
 
     return root;
 };

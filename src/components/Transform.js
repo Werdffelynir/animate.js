@@ -6,6 +6,9 @@ this.transform = Transform(this.element);
 this.transform.method('rotate', ['45deg']);
 this.transform.update();
 this.transform.research();
+this.transform.functionParameters('matrix')         // [1, 0, 0, 1, 0, 0]: array
+this.transform.functionParameters('rotate')         // ["45deg"]: string
+this.transform.functionParameters('rotate', true)   // 45: int
 
 // ...
 Transform.element(this.element, [
@@ -80,10 +83,14 @@ const Transform = function (element, params)
             });
         },
 
-        getMethodParameter(name, strictType = false){
-            if (strictType && Array.isArray(root.transform_obj[name]) && root.transform_obj[name].length === 1) {
-                return isNumber(root.transform_obj[name][0][0])
-                    ? parseInt(root.transform_obj[name][0])
+        functionParameters(name, FIRST_ITEM_TO_INTEGER = false){
+            if (FIRST_ITEM_TO_INTEGER
+                && Array.isArray(root.transform_obj[name])
+                && root.transform_obj[name].length === 1)
+            {
+                const item = root.transform_obj[name][0];
+                return isNumber(item)
+                    ? parseInt(item)
                     : root.transform_obj[name];
             }
             return root.transform_obj[name];

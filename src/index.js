@@ -22,6 +22,7 @@ const Animate = {
     Component,
     KeyboardEventManager,
     MoveClip,
+    Moveclip: MoveClip,
     Scene,
     StepsScene,
     Timer,
