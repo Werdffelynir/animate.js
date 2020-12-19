@@ -1,5 +1,26 @@
 import stylizer from "../static/stylizer";
+/*
 
+this.transform = Transform(this.element);
+this.transform.method('rotate', ['45deg']);
+this.transform.update();
+this.transform.research();
+
+// ...
+Transform.element(this.element, [
+    'rotate(' + 10 +'deg)',
+    'scale(0.6, 0.6)',
+    'matrix(1, 0, 0, 1, 0, 0)',
+]);
+Transform.element(this.element, ['rotate(' + 10 +'deg)'])
+const trs = Transform(this.element);
+
+// without of the Transform
+this.style({
+    transform: 'rotate(' + 10 +'deg) scale(0.6, 0.6) matrix(1, 0, 0, 1, 0, 0)'
+});
+
+*/
 const Transform = function (element, params)
 {
     const root = {
@@ -57,6 +78,15 @@ const Transform = function (element, params)
                 root.transform_obj[matched[0]] = matched.slice(1);
             });
         },
+
+        getMethodParameter(name, strictType = false){
+            if (strictType) {
+                return isNumber(root.transform_obj[name][0])
+                    ? parseInt(root.transform_obj[name])
+                    : root.transform_obj[name];
+            }
+            return root.transform_obj[name];
+        },
     };
 
     root.research();
@@ -71,10 +101,10 @@ const Transform = function (element, params)
     return root;
 }
 
-Transform.element = function (element, value){
-    if (Array.isArray(value)) {
+Transform.element = function (element, values){
+    if (Array.isArray(values)) {
         const props = [];
-        value.forEach((prop) => { props.push(prop) });
+        values.forEach((prop) => { props.push(prop) });
         stylizer(element, {transform: props.join(' ')});
     }
 };

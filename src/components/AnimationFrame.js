@@ -1,13 +1,13 @@
 
 /*
 const animation = AnimationFrame();
-pause();
-start(function(progress){
+animation.pause();
+animation.start(function(progress){
     if (Math.round(progress) % 1000 === 0) {
         // do something
     }
 });
-cancel();
+animation.cancel();
 */
 /**
  *

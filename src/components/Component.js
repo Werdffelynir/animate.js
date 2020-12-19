@@ -123,8 +123,8 @@ const Component = function (config)
 
         if (comp.components && Object.keys(comp.components).length) {
             Object.keys(comp.components).forEach((key) => {
-                if ( comp.components[key] && comp.components[key].hasOwnProperty('key')) {
-                    comp.components[key].parent = comp;
+                if (comp.components[key]) {
+                    comp.components[key].parentComponent = comp;
                 }
                 comp.children.push(comp.components[key]);
             });
@@ -166,7 +166,7 @@ Component.create = function (config) {
         completed: false,
         components: {},
         children: [],
-        parent: {},
+        parentComponent: {},
     }, config)
 };
 
