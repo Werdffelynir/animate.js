@@ -1,4 +1,5 @@
 import stylizer from "../static/stylizer";
+import isNumber from "../static/isNumber";
 /*
 
 this.transform = Transform(this.element);

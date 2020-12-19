@@ -60,6 +60,7 @@ import toHTML from "../static/toHTML";
 import toXML from "../static/toXML";
 import stylizer from "../static/stylizer";
 import uniqArray from "../static/uniqArray";
+import isNumber from "../static/isNumber";
 
 const Static = {
     attr,
@@ -122,6 +123,7 @@ const Static = {
     toXML,
     stylizer,
     uniqArray,
+    isNumber,
 };
 
 export default Static;
