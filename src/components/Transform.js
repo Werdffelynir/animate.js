@@ -80,9 +80,9 @@ const Transform = function (element, params)
         },
 
         getMethodParameter(name, strictType = false){
-            if (strictType) {
-                return isNumber(root.transform_obj[name][0])
-                    ? parseInt(root.transform_obj[name])
+            if (strictType && Array.isArray(root.transform_obj[name]) && root.transform_obj[name].length === 1) {
+                return isNumber(root.transform_obj[name][0][0])
+                    ? parseInt(root.transform_obj[name][0])
                     : root.transform_obj[name];
             }
             return root.transform_obj[name];
