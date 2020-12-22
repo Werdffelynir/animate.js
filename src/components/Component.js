@@ -97,11 +97,11 @@ const Component = function (config)
             if (!append) {
                 comp.template.textContent = '';
             }
-            if (Array.isArray(elem)) {
-                elem.forEach((e) => {comp.inject(e, true)});
-            }
             if (isNode(elem)) {
                 comp.template.appendChild(elem);
+            }
+            if (Array.isArray(elem)) {
+                elem.forEach((e) => {comp.inject(e, true)});
             }
         };
 
@@ -156,6 +156,17 @@ const Component = function (config)
             });
         }
 
+        comp.updateTemplateElements = function () {
+            if (isNode(comp.template) && comp.templateElementsEnabled === true) {
+                comp.elements = {
+                    func: search('[data-func]', 'data-func', comp.template),
+                    action: search('[data-action]', 'data-action', comp.template),
+                    node: search('[data-node]', 'data-node', comp.template),
+                    on: search('[data-on]', 'data-on', comp.template),
+                };
+            }
+        };
+
         if (!comp.completed) {
             comp.updateTemplateElements();
             if (document) {
@@ -168,17 +179,6 @@ const Component = function (config)
                 if (typeof comp.complete === 'function') comp.complete.call(comp, comp);
             }
         }
-
-        comp.updateTemplateElements = function () {
-            if (isNode(comp.template) && comp.templateElementsEnabled === true) {
-                comp.elements = {
-                    func: search('[data-func]', 'data-func', comp.template),
-                    action: search('[data-action]', 'data-action', comp.template),
-                    node: search('[data-node]', 'data-node', comp.template),
-                    on: search('[data-on]', 'data-on', comp.template),
-                };
-            }
-        };
 
         Component.list[comp.id] = comp;
         return comp;
