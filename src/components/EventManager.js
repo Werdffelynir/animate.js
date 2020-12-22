@@ -1,4 +1,7 @@
-
+/**
+ * @deprecated
+ * @type {{super: DocumentFragment, addEvent: (function(*=, *=): CustomEvent), removeEventListener: (function(*=, *=, *=): this), dispatchEvent: (function(*): this), eventsType: {}, removeEvent: (function(*): this), version: string, addEventListener: (function(*=, *=, *=): {type: *, listener: *, useCapture: (*|boolean)})}}
+ */
 const EventManager = {
     super: document.createDocumentFragment(),
     version: '0.0.2',
