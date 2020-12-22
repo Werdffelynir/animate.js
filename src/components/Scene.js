@@ -22,10 +22,11 @@ scene.run('output', ['hello', 200, [1,2,3], {id: 123}]);
 /**
  *
  * @param properties
+ * @param community_arguments
  * @returns {{current: string, scenes: {default: {callback(): void, attrs: []}}, element: null}}
  * @constructor
  */
-const Scene = function (properties) {
+const Scene = function (properties, community_arguments = []) {
     const root = {
         current: 'default',
         element: null,
@@ -90,19 +91,9 @@ const Scene = function (properties) {
         return clone(this);
     };
 
-
     if (properties && properties.constructor === Object) {
         Object.keys(properties).forEach((key) => {
-            const parameter = properties[key];
-
-            if (key === 'scene' || key === 'scenes') {
-                const pass = properties['pass'] || {};
-                Object.keys(parameter).forEach((name) => {
-                    root.add(name, parameter[name], pass);
-                });
-            } else if (typeof root[key] === "undefined") {
-                root[key] = parameter;
-            }
+            root.add(key, properties[key], Array.isArray(community_arguments) ? community_arguments : [community_arguments]);
         });
     }
 

@@ -58,6 +58,9 @@ const Clip = function (element)
                 elem = query(elem);
             }
         }
+        if (!append) {
+            root.element.textContent = '';
+        }
         root.element.appendChild(elem);
     };
 

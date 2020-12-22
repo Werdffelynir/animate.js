@@ -106,6 +106,9 @@ const MoveClip = function (config)
                 elem = query(elem);
             }
         }
+        if (!append) {
+            root.element.textContent = '';
+        }
         root.element.appendChild(elem);
     };
 

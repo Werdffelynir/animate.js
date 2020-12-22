@@ -82,6 +82,21 @@ const Component = function (config)
             return cloned;
         };
 
+        comp.inject = function (elem, append = true) {
+            if (typeof elem === 'string') {
+                if (isHTMLString(elem)) {
+                    elem = str2node(elem);
+                } else {
+                    elem = query(elem);
+                }
+            }
+            if (!append) {
+                comp.template.textContent = '';
+            }
+            comp.template.appendChild(elem);
+        };
+
+
         if (typeof comp.before === 'function' && !comp.initialized){
             comp.before();
         }
