@@ -82,6 +82,10 @@ const Component = function (config)
             return cloned;
         };
 
+        comp.on = function (event, callback) {
+            comp.template.addEventListener(event, callback)
+        };
+
         comp.inject = function (elem, append = true) {
             if (typeof elem === 'string') {
                 if (isHTMLString(elem)) {
@@ -125,9 +129,11 @@ const Component = function (config)
             });
         }
 
-        if (typeof comp.init === 'function' && !comp.initialized){
+        if (!comp.initialized){
             comp.initialized = true;
-            comp.init();
+
+            if (typeof comp.init === 'function')
+                comp.init();
         }
 
         if (comp.data && Object.keys(comp.data).length) {
@@ -150,22 +156,29 @@ const Component = function (config)
             });
         }
 
-        if (isNode(comp.template)) {
-            comp.node = search('[data-node]', 'data-node', comp.template);
-            comp.on = search('[data-on]', 'data-on', comp.template);
-        }
-
-        if (typeof comp.complete === 'function' && !comp.completed) {
+        if (!comp.completed) {
+            comp.updateTemplateElements();
             if (document) {
                 document.addEventListener('DOMContentLoaded', () => {
                     comp.completed = true;
-                    comp.complete.call(comp, comp);
+                    if (typeof comp.complete === 'function') comp.complete.call(comp, comp);
                 });
             } else {
                 comp.completed = true;
-                comp.complete.call(comp, comp);
+                if (typeof comp.complete === 'function') comp.complete.call(comp, comp);
             }
         }
+
+        comp.updateTemplateElements = function () {
+            if (isNode(comp.template) && comp.templateElementsEnabled === true) {
+                comp.elements = {
+                    func: search('[data-func]', 'data-func', comp.template),
+                    action: search('[data-action]', 'data-action', comp.template),
+                    node: search('[data-node]', 'data-node', comp.template),
+                    on: search('[data-on]', 'data-on', comp.template),
+                };
+            }
+        };
 
         Component.list[comp.id] = comp;
         return comp;
@@ -184,9 +197,11 @@ Component.create = function (config) {
         node: {},
         initialized: false,
         completed: false,
+        templateElementsEnabled: true,
         components: {},
         children: [],
         parentComponent: {},
+        elements: {},
     }, config)
 };
 
