@@ -16,13 +16,13 @@ import Matrix from "./components/Matrix";
 import Point from "./components/Point";
 import Rectangle from "./components/Rectangle";
 import Transform from "./components/Transform";
+import EventManager from "./components/EventManager";
 
 const Animate = {
     Clip,
     Component,
     KeyboardEventManager,
     MoveClip,
-    Moveclip: MoveClip,
     Scene,
     StepsScene,
     Timer,
@@ -34,6 +34,8 @@ const Animate = {
     Point,
     Rectangle,
     Transform,
+
+    EventManager,
 };
 
 const RADIAN = 0.017453292519943295;

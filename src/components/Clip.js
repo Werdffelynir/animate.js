@@ -2,55 +2,11 @@ import position from "../static/position";
 import copy from "../static/copy";
 import clone from "../static/clone";
 import isHTMLString from "../static/isHTMLString";
-import node2str from "../static/node2str";
 import query from "../static/query";
 import stylizer from "../static/stylizer";
 import str2node from "../static/str2node";
+import isNode from "../static/isNode";
 
-export class ClipClass {
-    constructor(element) {
-        this.position = position(element);
-        this.element = position.element;
-        this.setProperties();
-    }
-
-    moveTo(parent) {
-        if (parent instanceof Clip) {
-            return parent.element.appendChild(this.element);
-        }
-        if (parent instanceof Node) {
-            return parent.appendChild(this.element);
-        }
-    }
-
-    copyTo(parent) {
-        this.element = copy(this.element);
-        this.moveTo(parent);
-    }
-
-    on (event, callback) {
-        this.element.addEventListener(event, callback)
-    }
-
-    clone () {
-        return clone(this);
-    }
-
-    setProperties() {
-        Object.keys(this.position).map(function (key) {
-            if (typeof this[key] === "undefined") {
-                this[key] = this.position[key]
-            }
-        });
-
-        if (this.element instanceof Node) {
-            const parent = position(this.element.parentNode);
-            this.x = this.x - parent.x;
-            this.y = this.y - parent.y;
-            this.element.setAttribute('data-clip', (this.element.id || 'clip'));
-        }
-    }
-}
 /**
  *
  * @param element
@@ -107,6 +63,18 @@ const Clip = function (element)
 
     root.append = function (elem) {
         root.inject(elem, true);
+    };
+
+    root.remove = function (elem) {
+        if(isNode(elem)) {
+            return root.element.removeChild(elem);
+        } else {
+            throw new TypeError('Failed argument type. Need NodeElement');
+        }
+    };
+
+    root.clear = function () {
+        root.element.textContent = '';
     };
 
     return root;

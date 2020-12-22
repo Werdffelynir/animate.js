@@ -2,6 +2,13 @@ import clone from "../static/clone";
 
 
 /*
+add(name, callback, attrs)  // add new scene
+get(name)                   // returned scene by name
+getCurrentScene()           // returned current scene
+next()                      // to next scene
+run(name, attrs)            // run scenes by name, set this key name to default
+clone()                     // cloned current scenes
+
 const scene = Scene();
 scene.add('editor', function (a, b, c, d) {
     console.log(a, b, c, d);
@@ -9,8 +16,9 @@ scene.add('editor', function (a, b, c, d) {
 scene.add('output', function (a, b, c, d) {
     console.log(a, b, c, d);
 })
-scene.run('output', ['hello', 200, {}]);
+scene.run('output', ['hello', 200, [1,2,3], {id: 123}]);
 */
+
 /**
  *
  * @param properties
@@ -69,8 +77,7 @@ const Scene = function (properties) {
             if (attrs) {
                 attrs = Array.isArray(attrs) ? attrs : [attrs];
             }
-
-            callback.apply(callback, attrs ? attrs : scene.attrs);
+            callback.apply(root, attrs ? attrs : scene.attrs);
         }
     };
 
@@ -83,9 +90,19 @@ const Scene = function (properties) {
         return clone(this);
     };
 
-    if (properties && properties.scenes && properties.scenes.constructor === Object) {
-        Object.keys(properties.scenes).forEach((key) => {
-            root.add(key, properties.scenes[key]);
+
+    if (properties && properties.constructor === Object) {
+        Object.keys(properties).forEach((key) => {
+            const parameter = properties[key];
+
+            if (key === 'scene' || key === 'scenes') {
+                const pass = properties['pass'] || {};
+                Object.keys(parameter).forEach((name) => {
+                    root.add(name, parameter[name], pass);
+                });
+            } else if (typeof root[key] === "undefined") {
+                root[key] = parameter;
+            }
         });
     }
 

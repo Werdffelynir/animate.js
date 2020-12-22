@@ -4,6 +4,7 @@ import str2node from "../static/str2node";
 import isHTMLString from "../static/isHTMLString";
 import query from "../static/query";
 import stylizer from "../static/stylizer";
+import isNode from "../static/isNode";
 
 /*
 return MoveClip({
@@ -21,6 +22,12 @@ return MoveClip({
     },
 })
 */
+/**
+ * @method style
+ * @param config
+ * @returns {{readonly x: *, readonly width: *, initialized: boolean, readonly y: *, style(*=): void, completed: boolean, element: *, readonly height: *}|*}
+ * @constructor
+ */
 const MoveClip = function (config)
 {
     const { element } = config;
@@ -104,6 +111,14 @@ const MoveClip = function (config)
 
     root.append = function (elem) {
         root.inject(elem, true);
+    };
+
+    root.remove = function (elem) {
+        if(isNode(elem)) {
+            return root.element.removeChild(elem);
+        } else {
+            throw new TypeError('Failed argument type. Need NodeElement');
+        }
     };
 
     root.on = function (event, callback) {
