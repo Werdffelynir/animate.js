@@ -109,7 +109,13 @@ const MoveClip = function (config)
         if (!append) {
             root.element.textContent = '';
         }
-        root.element.appendChild(elem);
+
+        if (Array.isArray(elem)) {
+            elem.forEach((e) => {root.inject(e, true)});
+        }
+        if (isNode(elem)) {
+            root.element.appendChild(elem);
+        }
     };
 
     root.append = function (elem) {

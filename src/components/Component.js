@@ -93,7 +93,12 @@ const Component = function (config)
             if (!append) {
                 comp.template.textContent = '';
             }
-            comp.template.appendChild(elem);
+            if (Array.isArray(elem)) {
+                elem.forEach((e) => {comp.inject(e, true)});
+            }
+            if (isNode(elem)) {
+                comp.template.appendChild(elem);
+            }
         };
 
 
