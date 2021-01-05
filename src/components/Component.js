@@ -8,18 +8,23 @@ import isHTMLString from "../static/isHTMLString";
 import query from "../static/query";
 
 
-/**
- *
+/*
+
 config:
     id: 'id',
     props: {},
     template: ``,
+
+    before () {},
     init () {},
-    data: {},
     complete () {},
+
+    data: {},
     methods: {},
-    node: {},
     components: {},
+
+    templateElementsEnabled: true,
+    templateElementsAttributes: COMPONENT_DATA_ATTRIBUTES,
     override: false,
     initialized: false,
     completed: false,
@@ -33,19 +38,32 @@ Component({
         iterator: 0,
     },
     complete (app) {
-        if (this.node['title'])
-        this.node['title'].textContent = this.title;
+        if (this.templateElements.node.title) this.templateElements.node.title.textContent = this.title;
     },
     methods: {
         add (e) {
             this.node.iterator.textContent = ++ this.data.iterator ;
         },
-        min (e) {
-            this.node.iterator.textContent = -- this.data.iterator ;
-        },
     }
 });
 
+
+comp = Component({...});
+    templateElements: { func:{}, action:{}, node:{}, on:{} },
+        If templateElementsEnabled is enabled during component initialization, attributes with names are requested
+        from the template:
+        COMPONENT_DATA_ATTRIBUTES === [data-func], [data-action], [data-node], [data-on]
+
+comp.component(id)
+comp.componentChildren(id)
+comp.clone()
+comp.on(event, callback)
+comp.inject(elem, append = true)
+comp.inject()
+comp.elements(attr, name)
+
+*/
+/**
  * @param config
  * @returns {*}
  * @constructor
@@ -76,7 +94,7 @@ const Component = function (config)
             return comp.children.find((component) => component.id === id);
         };
 
-        comp.clone = function (id) {
+        comp.clone = function () {
             const cloned = clone(this);
             cloned.template = cloned.template.cloneNode(true);
             return cloned;
@@ -156,19 +174,23 @@ const Component = function (config)
             });
         }
 
-        comp.updateTemplateElements = function () {
-            if (isNode(comp.template) && comp.templateElementsEnabled === true) {
-                comp.elements = {
-                    func: search('[data-func]', 'data-func', comp.template),
-                    action: search('[data-action]', 'data-action', comp.template),
-                    node: search('[data-node]', 'data-node', comp.template),
-                    on: search('[data-on]', 'data-on', comp.template),
-                };
+        comp.elements = function (attr, name) {
+            return typeof comp.templateDataElements[attr][name] !== "undefined"
+                ? comp.templateDataElements[attr][name]
+                : null;
+        };
+
+        comp.updateTemplateDataElements = function () {
+            if (isNode(comp.template) && comp.templateDataElementsEnabled === true) {
+                comp.templateDataElementsAttributes.forEach((attr) => {
+                    const name = attr.substring(5);
+                    comp.templateDataElements[name] = search('['+attr+']', attr, comp.template);
+                });
             }
         };
 
         if (!comp.completed) {
-            comp.updateTemplateElements();
+            comp.updateTemplateDataElements();
             if (document) {
                 document.addEventListener('DOMContentLoaded', () => {
                     comp.completed = true;
@@ -184,6 +206,7 @@ const Component = function (config)
         return comp;
     }
 };
+
 Component.list = {};
 Component.create = function (config) {
     return merge( {
@@ -197,12 +220,15 @@ Component.create = function (config) {
         node: {},
         initialized: false,
         completed: false,
-        templateElementsEnabled: true,
+        templateDataElements: {},
+        templateDataElementsEnabled: true,
+        templateDataElementsAttributes: COMPONENT_DATA_ATTRIBUTES,
         components: {},
         children: [],
         parentComponent: {},
-        elements: {},
     }, config)
 };
+
+export const COMPONENT_DATA_ATTRIBUTES = ['data-func', 'data-action', 'data-node', 'data-on'];
 
 export default Component;

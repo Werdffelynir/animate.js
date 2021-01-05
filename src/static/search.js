@@ -17,6 +17,10 @@ const search = function (selector, attr, from) {
         elements = {},
         queryElements = queryAll(selector, from || document.body);
 
+    if (from.hasAttribute(attr)) {
+        queryElements.push(from)
+    }
+
     if (queryElements) {
         while (i < queryElements.length) {
             if (!attr)

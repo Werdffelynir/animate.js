@@ -14,75 +14,75 @@ animation.cancel();
  * @constructor
  */
 const Frames = function (parameters = {}) {
-    const default_parameters = {
+    const internal = {
         fps: false,
         paused: false,
-    };
-
-    const root = {
         now: 0,
         elapsed: 0,
         then: 0,
         fpsInterval: 0,
         frameCount: 0,
-        fps: 30,
         startpaly: 0,
         progress: 0,
-        paused: false,
     };
 
-    Object.keys(default_parameters).forEach((key) => {
-        root[key] = typeof parameters[key] !== undefined
+    const external = {
+
+    };
+
+    Object.keys(internal).forEach((key) => {
+        internal[key] = typeof parameters[key] !== undefined
             ? parameters[key]
-            : default_parameters[key];
+            : internal[key];
     });
 
     const animation = function (timestamp) {
-        if (!root.startpaly) root.startpaly = timestamp;
-        root.progress = timestamp - root.startpaly;
+        if (!internal.startpaly) internal.startpaly = timestamp;
+        internal.progress = timestamp - internal.startpaly;
 
         requestAnimationFrame(animation);
 
-        if (!root.fps && root.fps > 0) {
-            root.now = Date.now();
-            root.elapsed = root.now - root.then;
-            if (root.elapsed > root.fpsInterval) {
-                root.then = root.now - (root.elapsed % root.fpsInterval);
+        if (internal.fps && internal.fps > 0) {
+            internal.now = Date.now();
+            internal.elapsed = internal.now - internal.then;
+            if (internal.elapsed > internal.fpsInterval) {
+                internal.then = internal.now - (internal.elapsed % internal.fpsInterval);
 
-                if (root.callback && !root.paused) {
-                    root.callback.call(root, root.progress);
+                if (external.callback && !internal.paused) {
+                    external.callback.call(external, internal.progress);
                 }
             }
 
         } else {
-            if (root.callback && !root.paused) {
-                root.callback.call(root, root.progress);
+            if (external.callback && !internal.paused) {
+                external.callback.call(external, internal.progress);
             }
         }
     }
 
-    root.pause = function () {
-        root.paused = !root.paused;
+    external.pause = function () {
+        internal.paused = !internal.paused;
     };
 
-    root.start = function (callback) {
+    external.start = function (callback) {
         if (callback) {
-            root.callback = callback;
+            external.callback = callback;
         }
 
-        if (root.fps > 0) {
-            root.fpsInterval = 1000 / root.fps;
-            root.then = Date.now();
-            root.startTime = root.then;
+        if (internal.fps > 0) {
+            internal.fpsInterval = 1000 / internal.fps;
+            internal.then = Date.now();
+            internal.startTime = internal.then;
         }
-        root.requestId = window.requestAnimationFrame(animation);
+        internal.requestId = window.requestAnimationFrame(animation);
     };
 
-    root.cancel = function () {
-        window.cancelAnimationFrame(root.requestId);
+    external.cancel = function () {
+        window.cancelAnimationFrame(internal.requestId);
     };
 
-    return root;
+    return external;
 };
 
 export default Frames;
+

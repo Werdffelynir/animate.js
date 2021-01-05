@@ -18,6 +18,7 @@ import Rectangle from "./components/Rectangle";
 import Transform from "./components/Transform";
 import EventManager from "./components/EventManager";
 import Frames from "./components/Frames";
+import Router from "./components/Router";
 
 const Animate = {
     Clip,
@@ -37,6 +38,7 @@ const Animate = {
     Transform,
     EventManager,
     Frames,
+    Router,
 };
 
 const RADIAN = 0.017453292519943295;

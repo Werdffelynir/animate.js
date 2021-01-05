@@ -61,6 +61,7 @@ import toXML from "../static/toXML";
 import stylizer from "../static/stylizer";
 import uniqArray from "../static/uniqArray";
 import isNumber from "../static/isNumber";
+import trimSymbols from "../static/trimSymbols";
 
 const Static = {
     attr,
@@ -124,6 +125,7 @@ const Static = {
     stylizer,
     uniqArray,
     isNumber,
+    trimSymbols,
 };
 
 export default Static;

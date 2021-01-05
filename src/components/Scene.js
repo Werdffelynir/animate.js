@@ -17,6 +17,13 @@ scene.add('output', function (a, b, c, d) {
     console.log(a, b, c, d);
 })
 scene.run('output', ['hello', 200, [1,2,3], {id: 123}]);
+
+// init v 2
+const sceneContext = {};
+const scene = Scene({
+    editor () {},
+    output () {},
+});
 */
 
 /**
@@ -26,6 +33,7 @@ scene.run('output', ['hello', 200, [1,2,3], {id: 123}]);
  * @returns {{current: string, scenes: {default: {callback(): void, attrs: []}}, element: null}}
  * @constructor
  */
+
 const Scene = function (properties, community_arguments = []) {
     const root = {
         current: 'default',
@@ -66,10 +74,10 @@ const Scene = function (properties, community_arguments = []) {
                 break;
             }
         }
-        root.run(lest);
+        root.open(lest);
     };
 
-    root.run = function (key, attrs) {
+    root.open = function (key, attrs) {
         root.current = key || 'default';
         const scene = root.getCurrentScene();
         const callback = scene.callback;
@@ -78,14 +86,17 @@ const Scene = function (properties, community_arguments = []) {
             if (attrs) {
                 attrs = Array.isArray(attrs) ? attrs : [attrs];
             }
+            // todo: changed apply to call
             callback.apply(root, attrs ? attrs : scene.attrs);
         }
     };
 
     /** @deprecated */
-    root.show = function (key, attrs) { root.run(key, attrs) };
+    root.show = function (key, attrs) { root.open(key, attrs) };
     /** @deprecated */
-    root.start = function (key, attrs) { root.run(key, attrs) };
+    root.start = function (key, attrs) { root.open(key, attrs) };
+    /** @deprecated */
+    root.run = function (key, attrs) { root.open(key, attrs) };
 
     root.clone = function () {
         return clone(this);
