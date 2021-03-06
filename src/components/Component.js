@@ -104,13 +104,28 @@ const Component = function (config)
             comp.template.addEventListener(event, callback)
         };
 
-        comp.inject = function (elem, append = true) {
-            if (typeof elem === 'string') {
-                if (isHTMLString(elem)) {
-                    elem = str2node(elem);
-                } else {
-                    elem = query(elem);
-                }
+        // comp.inject = function (elem, append = true) {
+        //     if (typeof elem === 'string') {
+        //         if (isHTMLString(elem)) {
+        //             elem = str2node(elem);
+        //         } else {
+        //             elem = query(elem);
+        //         }
+        //     }
+        //     if (!append) {
+        //         comp.template.textContent = '';
+        //     }
+        //     if (isNode(elem)) {
+        //         comp.template.appendChild(elem);
+        //     }
+        //     if (Array.isArray(elem)) {
+        //         elem.forEach((e) => {comp.inject(e, true)});
+        //     }
+        // };
+
+        comp.inject = function (elem, append = false) {
+            if (Array.isArray(elem)) {
+                elem.forEach((e) => { comp.inject(e, true) });
             }
             if (!append) {
                 comp.template.textContent = '';
@@ -118,11 +133,22 @@ const Component = function (config)
             if (isNode(elem)) {
                 comp.template.appendChild(elem);
             }
-            if (Array.isArray(elem)) {
-                elem.forEach((e) => {comp.inject(e, true)});
+            if (typeof elem === 'number') {
+                elem = elem.toString();
+            }
+            if (typeof elem === 'string') {
+                if (isHTMLString(elem)) {
+                    elem = str2node(elem);
+                    comp.template.appendChild(elem);
+                } else {
+                    comp.template.textContent += elem;
+                }
             }
         };
 
+        comp.append = function (elem) {
+            comp.inject(elem, true);
+        };
 
         if (typeof comp.before === 'function' && !comp.initialized){
             comp.before();

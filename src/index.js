@@ -3,6 +3,7 @@ import getWindow from "./static/getWindow";
 import Clip from "./components/Clip.js";
 import Component from "./components/Component.js";
 import KeyboardEventManager from "./components/KeyboardEventManager.js";
+import {EventCodes, EventKeys, EventCodesNames, EventKeysNames} from "./components/KeyboardEventManager.js";
 import MoveClip from "./components/MoveClip.js";
 import Scene from "./components/Scene.js";
 import StepsScene from "./components/StepsScene.js";
@@ -24,6 +25,10 @@ const Animate = {
     Clip,
     Component,
     KeyboardEventManager,
+    EventCodes,
+    EventKeys,
+    EventCodesNames,
+    EventKeysNames,
     MoveClip,
     Scene,
     StepsScene,

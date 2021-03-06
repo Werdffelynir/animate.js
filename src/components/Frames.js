@@ -1,5 +1,8 @@
 /*
-const animation = FrameAnimation();
+const animation = Frames({
+    fps: 24,
+    paused: false,
+});
 animation.pause();
 animation.start(function(progress){
     if (Math.round(progress) % 1000 === 0) {
@@ -10,7 +13,7 @@ animation.cancel();
 */
 /**
  *
- * @returns {{duration: number, startpaly: number, paused: boolean, delay: number, requestId: number, callback: number, progress: number}}
+ * @returns {{duration: number, startpaly: number, paused: boolean, delay: number, requestId: number, callback: number, progress: number, start(callback): function, pause: function, cancel: function}}
  * @constructor
  */
 const Frames = function (parameters = {}) {
@@ -38,9 +41,8 @@ const Frames = function (parameters = {}) {
 
     const animation = function (timestamp) {
         if (!internal.startpaly) internal.startpaly = timestamp;
+        if (!internal.frameCount) internal.frameCount = 0;
         internal.progress = timestamp - internal.startpaly;
-
-        requestAnimationFrame(animation);
 
         if (internal.fps && internal.fps > 0) {
             internal.now = Date.now();
@@ -49,15 +51,19 @@ const Frames = function (parameters = {}) {
                 internal.then = internal.now - (internal.elapsed % internal.fpsInterval);
 
                 if (external.callback && !internal.paused) {
-                    external.callback.call(external, internal.progress);
+                    internal.frameCount ++;
+                    external.callback.call(external, internal.progress, internal.frameCount);
                 }
             }
 
         } else {
             if (external.callback && !internal.paused) {
-                external.callback.call(external, internal.progress);
+                internal.frameCount ++;
+                external.callback.call(external, internal.progress, internal.frameCount);
             }
         }
+
+        requestAnimationFrame(animation);
     }
 
     external.pause = function () {

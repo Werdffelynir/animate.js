@@ -148,6 +148,7 @@ const MoveClip = function (config)
         if (typeof elem === 'string') {
             if (isHTMLString(elem)) {
                 elem = str2node(elem);
+                root.element.appendChild(elem);
             } else {
                 root.element.textContent += elem;
             }
