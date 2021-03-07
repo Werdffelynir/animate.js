@@ -7,6 +7,8 @@ import stylizer from "../static/stylizer";
 import isNode from "../static/isNode";
 import {randomHumanizeString} from "../static/random";
 import extend, {extendRecursive} from "../static/extend";
+import isString from "../static/isString";
+import position from "../static/position";
 
 /*
 mc = MoveClip({
@@ -82,6 +84,7 @@ const MoveClip = function (config)
         get height() {
             return clip.height
         },
+        // style({ transform: 'rotate(10deg) scale(0.6, 0.6) matrix(1, 0, 0, 1, 0, 0)', });
         style(object) {
             stylizer(root.element, object);
         },
@@ -94,10 +97,10 @@ const MoveClip = function (config)
         root[key] = config[key]
     });
 
-    if (typeof root.init === 'function' && !root.initialized){
-        root.initialized = true;
-        root.init.call(root);
-    }
+    // if (typeof root.init === 'function' && !root.initialized){
+    //     root.initialized = true;
+    //     root.init.call(root);
+    // }
 
     root.clone = function (append = false) {
         const node = isNode(root.element)
@@ -170,6 +173,32 @@ const MoveClip = function (config)
     root.on = function (event, callback) {
         root.element.addEventListener(event, callback)
     };
+
+    root.calculate = function (element) {
+        element = isNode(element) || isString(element) ? element : this.element;
+        const re_root = position(element);
+        const re_parent = position(re_root.element.parentNode);
+
+        if (isNode(re_parent.element)) {
+            re_root.parent = root.calculate(re_parent.element);
+        } else {
+            re_root.parent = {x: 0, y: 0, width: 0, height: 0};
+        }
+        re_root.x = re_root.x - re_parent.x;
+        re_root.y = re_root.y - re_parent.y;
+
+        const props = ['x', 'y', 'width', 'height', 'top', 'left', 'right', 'bottom', 'parent'];
+        Object.keys(re_root).forEach((key) => {
+            if (props.includes(key)) {
+                root[key] = re_root[key];
+            }
+        });
+    };
+
+    if (typeof root.init === 'function' && !root.initialized){
+        root.initialized = true;
+        root.init.call(root);
+    }
 
     if (typeof root.complete === 'function' && !root.completed){
         root.completed = true;
