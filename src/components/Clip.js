@@ -31,10 +31,11 @@ import isString from "../static/isString";
  * @method clone
  *
  * @param element
+ * @param onInitCallback
  * @returns {{ bottom: number, element: Object, height: number, left: number, right: number, top: number, width: number, x: number, y: number, moveTo: function, copyTo: function, on: function, clone: function, style: function, inject: function, append: function, remove: function, clear: function, on: function, clone: function, calculate: function }}
- * @constructor
+ * @constructor Clip()
  */
-const Clip = function (element) {
+const Clip = function (element, onInitCallback) {
     /**
      *
      * @type {{x: number, width: number, y: number, height: number, top: number, left: number, right: number, bottom: number, element: Object}}
@@ -134,6 +135,10 @@ const Clip = function (element) {
     root.clear = function () {
         root.element.textContent = '';
     };
+
+    if (typeof onInitCallback === "function") {
+        onInitCallback.call(root);
+    }
 
     return root;
 };

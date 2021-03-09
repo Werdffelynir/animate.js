@@ -1,14 +1,16 @@
 import position from "../static/position";
 import isNode from "../static/isNode";
 import isString from "../static/isString";
+
 /**
  *
  * @param element
  * @returns {{x: number, width: number, y: number, height: number, top: number, left: number, right: number, bottom: number, element: Object}}
  */
 const calculatePosition = function (element) {
-    element = isNode(element) || isString(element) ? element : throw new TypeError('element most extends od NodeElement');
-    const re_root = position(element);
+    if (!isNode(element) && !isString(element)) {
+        throw new TypeError('element most extends od NodeElement');
+    }    const re_root = position(element);
     const re_parent = position(re_root.element.parentNode);
 
     if (isNode(re_parent.element)) {

@@ -1,3 +1,4 @@
+import abc from "../static/abc";
 import attr from "../static/attr";
 import createElement from "../static/createElement";
 import createFragment from "../static/createFragment";
@@ -62,8 +63,16 @@ import stylizer from "../static/stylizer";
 import uniqArray from "../static/uniqArray";
 import isNumber from "../static/isNumber";
 import trimSymbols from "../static/trimSymbols";
+import isLowerCase from "../static/isLowerCase";
+import isUpperCase from "../static/isUpperCase";
+import toSnakeCase from "../static/toSnakeCase";
+import toCamelCase from "../static/toCamelCase";
+import hasLowerCase from "../static/hasLowerCase";
+import toMinusCase from "../static/toMinusCase";
+import addCss from "../static/addCss";
 
 const Static = {
+    abc,
     attr,
     createElement,
     createFragment,
@@ -126,6 +135,13 @@ const Static = {
     uniqArray,
     isNumber,
     trimSymbols,
+    isLowerCase,
+    isUpperCase,
+    toCamelCase,
+    toSnakeCase,
+    hasLowerCase,
+    toMinusCase,
+    addCss,
 };
 
 export default Static;

@@ -2,7 +2,12 @@ import typeOf from './typeOf';
 import isNode from './isNode';
 import queryAll from './queryAll';
 
-
+/**
+ *
+ * @param selector
+ * @param properties
+ * @returns {null|undefined}
+ */
 const css = function (selector, properties) {
     if (!selector || !properties) return;
     if (arguments.length === 3) {
