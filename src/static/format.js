@@ -16,11 +16,14 @@ import node2str from "./node2str";
  * @returns string
  */
 const format = function (string, list) {
+    const numberRegExp = /{(\d+)}/gi;
+    const stringRegExp = /{(\w+)}/gi;
+
     let reg;
     if (Array.isArray(list))
-        reg = new RegExp(/{(\d+)}/g);
+        reg = new RegExp(numberRegExp);
     else if (list && typeof list === 'object')
-        reg = new RegExp(/{(\w+)}/g);
+        reg = new RegExp(stringRegExp);
 
     return string.replace(reg, function (match, number) {
         if (defined(list[number]) && isNode(list[number]))

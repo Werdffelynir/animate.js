@@ -9,26 +9,37 @@ import query from "../static/query";
 
 
 /*
+# Config
+id: 'id',
+props: {},
+template: ``,
 
-config:
-    id: 'id',
-    props: {},
-    template: ``,
+before () {},
+init () {},
+complete () {},
 
-    before () {},
+data: {},
+methods: {},
+components: {},
+
+templateElementsEnabled: true,
+templateElementsAttributes: COMPONENT_DATA_ATTRIBUTES,
+override: false,
+initialized: false,
+completed: false,
+
+# Base example
+Component({
+    id: 'ExternalTemplateComponent',
+    props: ['title'],
+    template: 'template',
     init () {},
-    complete () {},
-
     data: {},
-    methods: {},
-    components: {},
+    complete (app) {},
+    methods: {}
+});
 
-    templateElementsEnabled: true,
-    templateElementsAttributes: COMPONENT_DATA_ATTRIBUTES,
-    override: false,
-    initialized: false,
-    completed: false,
-
+# Extend example
 Component({
     id: 'ExternalTemplateComponent',
     props: ['title'],
@@ -47,7 +58,6 @@ Component({
     }
 });
 
-
 comp = Component({...});
     templateElements: { func:{}, action:{}, node:{}, on:{} },
         If templateElementsEnabled is enabled during component initialization, attributes with names are requested
@@ -61,21 +71,20 @@ comp.on(event, callback)
 comp.inject(elem, append = true)
 comp.inject()
 comp.elements(attr, name)
-
 */
+
 /**
  * @param config
  * @returns {*}
  * @constructor
  */
-const Component = function (config)
-{
+const Component = function (config) {
     if (typeof config === 'string') {
         // get property by id keyword
         return Component.list[config];
     } else {
         if (!config.id) {
-            let randomName =  randomHumanizeString(6).toLowerCase();
+            let randomName = randomHumanizeString(6).toLowerCase();
             randomName = randomName.substring(0, 1).toUpperCase() + randomName.substring(1);
             config.id = 'Component' + randomName;
         }
@@ -83,8 +92,16 @@ const Component = function (config)
         if (Component.list[config.id]) {
             return Component.list[config.id];
         }
-
         const comp = Component.create(config);
+        // const comp = Component.create(merge(config, {
+        //     get parent(){
+        //         return this.parentDOMElement;
+        //     },
+        //     set parent(value){
+        //         if (!(value instanceof Node)) throw new Error('Parent must extend of Node');
+        //         this.parentDOMElement = value;
+        //     },
+        // }));
 
         comp.component = function (id) {
             return comp.components[id] ? comp.components[id] : null;
@@ -125,7 +142,9 @@ const Component = function (config)
 
         comp.inject = function (elem, append = false) {
             if (Array.isArray(elem)) {
-                elem.forEach((e) => { comp.inject(e, true) });
+                elem.forEach((e) => {
+                    comp.inject(e, true)
+                });
             }
             if (!append) {
                 comp.template.textContent = '';
@@ -150,12 +169,12 @@ const Component = function (config)
             comp.inject(elem, true);
         };
 
-        if (typeof comp.before === 'function' && !comp.initialized){
+        if (typeof comp.before === 'function' && !comp.initialized) {
             comp.before();
         }
 
         if (typeof comp.template === 'string') {
-            if(isHTMLString(comp.template)) {
+            if (comp.template === '' || isHTMLString(comp.template)) {
                 comp.template = str2node(comp.template);
             } else {
                 comp.template = query(comp.template);
@@ -173,7 +192,7 @@ const Component = function (config)
             });
         }
 
-        if (!comp.initialized){
+        if (!comp.initialized) {
             comp.initialized = true;
 
             if (typeof comp.init === 'function')
@@ -201,8 +220,15 @@ const Component = function (config)
         }
 
         comp.elements = function (attr, name) {
-            return typeof comp.templateDataElements[attr][name] !== "undefined"
-                ? comp.templateDataElements[attr][name]
+            attr = attr.replace('data-', '');
+            if (name) {
+                return typeof comp.templateDataElements[attr][name] !== "undefined"
+                    ? comp.templateDataElements[attr][name]
+                    : null;
+            }
+
+            return typeof comp.templateDataElements[attr] !== "undefined"
+                ? comp.templateDataElements[attr]
                 : null;
         };
 
@@ -210,10 +236,17 @@ const Component = function (config)
             if (isNode(comp.template) && comp.templateDataElementsEnabled === true) {
                 comp.templateDataElementsAttributes.forEach((attr) => {
                     const name = attr.substring(5);
-                    comp.templateDataElements[name] = search('['+attr+']', attr, comp.template);
+                    comp.templateDataElements[name] = search('[' + attr + ']', attr, comp.template);
                 });
             }
         };
+
+        /*        comp.parent = function (parent) {
+                    if (parent && parent.nodeType === Node.ELEMENT_NODE) {
+                        return this.parentDOMElement = parent;
+                    }
+                    return this.parentDOMElement;
+                };*/
 
         if (!comp.completed) {
             comp.updateTemplateDataElements();
@@ -235,13 +268,15 @@ const Component = function (config)
 
 Component.list = {};
 Component.create = function (config) {
-    return merge( {
+    return merge({
         id: null,
         props: {},
         template: false,
         override: false,
-        init: () => {},
-        complete: () => {},
+        init: () => {
+        },
+        complete: () => {
+        },
         methods: {},
         node: {},
         initialized: false,
@@ -255,6 +290,13 @@ Component.create = function (config) {
     }, config)
 };
 
-export const COMPONENT_DATA_ATTRIBUTES = ['data-func', 'data-action', 'data-node', 'data-on'];
+export const COMPONENT_DATA_ATTRIBUTES = [
+    'data-func',
+    'data-action',
+    'data-node',
+    'data-on',
+    'data-to',
+    'data-id',
+];
 
 export default Component;

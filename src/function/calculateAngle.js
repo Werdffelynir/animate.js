@@ -1,8 +1,7 @@
 
 
 /**
- * Calculate angle between two points. return object:
- *  {angle:, x:, y:}
+ * Calculate angle between two points. return object: {angle:, x:, y:}
  * @param p1
  * @param p2
  * @returns {{angle: number, x: number, y: number}}

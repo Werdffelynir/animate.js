@@ -2,7 +2,7 @@ import stylizer from "../static/stylizer";
 import isNumber from "../static/isNumber";
 /*
 
-transform = Transform(this.element);
+transform = PaintTransform(this.element);
 transform.method('rotate', ['45deg']);
 transform.update();
 transform.research();
@@ -11,21 +11,21 @@ transform.functionParameters('rotate')         // ["45deg"]: string
 transform.functionParameters('rotate', true)   // 45: int
 
 // ...
-Transform.element(this.element, [
+PaintTransform.element(this.element, [
     'rotate(' + 10 +'deg)',
     'scale(0.6, 0.6)',
     'matrix(1, 0, 0, 1, 0, 0)',
 ]);
-Transform.element(this.element, ['rotate(' + 10 +'deg)'])
-const trs = Transform(this.element);
+PaintTransform.element(this.element, ['rotate(' + 10 +'deg)'])
+const trs = PaintTransform(this.element);
 
-// without of the Transform
+// without of the PaintTransform
 this.style({
     transform: 'rotate(' + 10 +'deg) scale(0.6, 0.6) matrix(1, 0, 0, 1, 0, 0)'
 });
 
 */
-const Transform = function (element, params)
+const PaintTransform = function (element, params)
 {
     const root = {
         element: element,
@@ -40,7 +40,12 @@ const Transform = function (element, params)
                 root.transform_string += key + '(' + root.transform_obj[key].join(', ') + ') ';
             });
 
-            root.element.style.transform =  root.transform_string;
+            console.log('transform_obj');
+            console.log(root.transform_obj);
+
+            console.log('transform_string');
+            console.log(root.transform_string);
+            // root.element.style.transform =  root.transform_string;
             root.research();
         },
 
@@ -48,24 +53,41 @@ const Transform = function (element, params)
             if (typeof method === 'string') {
                 properties = Array.isArray(properties) ? properties : [properties];
 
-                if (multiply) {
-                    if (root.transform_obj[method]) {
-                        properties.forEach((value, i) => {
-                            if(typeof value === 'string') {
-                                const ext = value.match(/[a-z]+/g);
-                                const num = parseInt(value) + parseInt(root.transform_obj[method][i]);
-                                properties[i] = num + ext;
-                            } else {
-                                properties[i] = value + root.transform_obj[method][i];
-                            }
-                            root.transform_obj[method] = properties;
-                        });
-                    } else {
+                if (multiply || root.transform_obj[method]) {
+                    properties.forEach((value, i) => {
+                        if(typeof value === 'string') {
+                            const ext = value.match(/[a-z]+/g);
+                            const num = parseInt(value) + parseInt(root.transform_obj[method][i]);
+                            properties[i] = num + ext;
+                        } else {
+                            properties[i] = value + root.transform_obj[method][i];
+                        }
                         root.transform_obj[method] = properties;
-                    }
+                    });
                 } else {
                     root.transform_obj[method] = properties;
                 }
+
+                /*
+                                if (multiply) {
+                                    if (root.transform_obj[method]) {
+                                        properties.forEach((value, i) => {
+                                            if(typeof value === 'string') {
+                                                const ext = value.match(/[a-z]+/g);
+                                                const num = parseInt(value) + parseInt(root.transform_obj[method][i]);
+                                                properties[i] = num + ext;
+                                            } else {
+                                                properties[i] = value + root.transform_obj[method][i];
+                                            }
+                                            root.transform_obj[method] = properties;
+                                        });
+                                    } else {
+                                        root.transform_obj[method] = properties;
+                                    }
+                                } else {
+                                    root.transform_obj[method] = properties;
+                                }
+                */
 
             } else {
                 throw new Error('Sets parameters is not available')
@@ -109,12 +131,15 @@ const Transform = function (element, params)
     return root;
 }
 
-Transform.element = function (element, values){
+PaintTransform.element = function (element, values){
     if (Array.isArray(values)) {
         const props = [];
         values.forEach((prop) => { props.push(prop) });
-        stylizer(element, {transform: props.join(' ')});
+
+        console.log('PaintTransform.element');
+        console.log(element, props);
+        // stylizer(element, {transform: props.join(' ')});
     }
 };
 
-export default Transform;
+export default PaintTransform;

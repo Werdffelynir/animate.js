@@ -1,7 +1,13 @@
 import typeOf from './typeOf';
 import isNode from './isNode';
 
-
+/**
+ *
+ * @param tag
+ * @param attrs
+ * @param inner
+ * @return {HTMLElement|Node}
+ */
 const createElement = function (tag, attrs, inner) {
     const
         element = document.createElement(tag),

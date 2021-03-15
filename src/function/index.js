@@ -22,6 +22,9 @@ import sprintf from "../function/sprintf";
 import trim from "../function/trim";
 import values from "../function/values";
 import wait from "../function/wait";
+import sum from "../function/sum";
+import min from "../function/min";
+import max from "../function/max";
 
 const Function = {
     calculateAngle,
@@ -48,6 +51,9 @@ const Function = {
     trim,
     values,
     wait,
+    sum,
+    min,
+    max,
 };
 
 export default Function;

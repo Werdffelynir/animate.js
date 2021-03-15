@@ -18,6 +18,7 @@ import clone from "../static/clone";
     stepsAttackHero.goto('hero_attack_animation').next();
     stepsAttackHero.stop();
  *
+ * @deprecated
  * @param config
  * @returns {any}
  * @constructor

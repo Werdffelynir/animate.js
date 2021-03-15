@@ -20,6 +20,12 @@ import Transform from "./components/Transform";
 import EventManager from "./components/EventManager";
 import Frames from "./components/Frames";
 import Router from "./components/Router";
+import Paint from "./components/Paint";
+import Color from "./components/Color";
+import PaintTransform from "./components/PaintTransform";
+import EnterFrame from "./components/EnterFrame";
+import Plant from "./components/Plant";
+import Graphic from "./components/Graphic";
 
 const Animate = {
     Clip,
@@ -44,6 +50,12 @@ const Animate = {
     EventManager,
     Frames,
     Router,
+    Paint,
+    Color,
+    PaintTransform,
+    EnterFrame,
+    Plant,
+    Graphic,
 };
 
 const RADIAN = 0.017453292519943295;
@@ -62,6 +74,6 @@ Animate.Static =
     Animate.Util =
         Static;
 
-// if (getWindow()) getWindow().Animate = Animate;
+if (getWindow()) getWindow()['Animate'] = Animate;
 
 export default Animate;
