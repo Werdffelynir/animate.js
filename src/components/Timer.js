@@ -13,24 +13,34 @@ const timeout = function (callback = () => {}, ms = 1000, thisInst = null) {
     }, ms);
 };
 
-const interval = function (callback = () => {}, ms = 1000, thisInst = null) {
+const interval = function (callback = () => {}, ms = 1000, thisInst = null)
+{
     thisInst = typeof thisInst === 'object' ? thisInst : {};
 
-    return setInterval(function () {
-        callback.call(thisInst)
-    }, ms)
+    let iterate = 0;
+    let instance = setInterval(function () {
+        callback.call(thisInst,  ++ iterate, stop)
+    }, ms);
+
+    function stop() {
+        clearInterval(instance);
+    }
+
+    return instance;
 };
 
-const Timer = function (callback, delay, repeat = 1, thisInstance = null) {
-    this.repeat = repeat;
-    this.iterator = 0;
-    this.timeout = timeout;
-    this.interval = interval;
-    this.timeoutInstance = null;
-    this.intervalInstance = null;
-
+const Timer = function (callback, delay = 1000, repeat = 1, thisInstance = null)
+{
     if (repeat > 1) {
-
+        interval((iterator, stop) => {
+            if (iterator > repeat) {
+                stop();
+            } else {
+                callback.call(thisInstance, iterator, stop);
+            }
+        }, delay);
+    } else {
+        timeout(callback, delay, thisInstance)
     }
 
     return this;
