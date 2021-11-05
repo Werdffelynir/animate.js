@@ -1,14 +1,3 @@
-import isObject from "animate.js/src/function/isObject";
-
-/*
-
-
-
-
-
-
-*/
-
 /**
  * rec = Rectangle(0, 0, 100, 100); // {x: 0, y: 0, width: 100, height: 100}
  * rec.toArray(); // [0, 0, 100, 100]
@@ -40,7 +29,7 @@ Rectangle.from = function (params) {
     if (Array.isArray(params)) {
         return Rectangle.apply(Rectangle, params);
     }
-    if (isObject(params)) {
+    if (params && typeof params === 'object') {
         return Rectangle.apply(Rectangle, Object.values(params));
     }
 };

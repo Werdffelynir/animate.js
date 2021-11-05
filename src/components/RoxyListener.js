@@ -1,14 +1,29 @@
 import Roxy from "./Roxy";
 
+/*
+const rx = RoxyListener ({
+    eventName () { /* handler .../ },
+    eventName () { /* handler .../ },
+})
+rx.set();
+rx.dispatch();
+
+rx.action();
+*/
+
 /**
  * const rx = RoxyListener ({
- *     eventName () { // handler ... },
- *     eventName () { // handler ... },
+ *     eventName () { /* handler .../ },
+ *     eventName () { /* handler .../ },
  * })
- * rx.set();
+ * rx.addListener();
  * rx.dispatch();
  *
  * rx.action();
+ *
+ *
+ *
+ *
  *
  * @param payload
  * @returns {{proxy: *, dispatch(*=, *=): Roxy, get(*): *, event(*=, *=): this, fill(*=, *=): this}}
@@ -37,7 +52,8 @@ const RoxyListener = function (payload) {
         return actionsNames
     };
 
-    rx.event((eventCursor, values) => {
+    // observe
+    rx.addListener((eventCursor, values) => {
         actions.__action__.call(actions, eventCursor, values);
 
         Object.keys(actions).map(function (eventName, index) {

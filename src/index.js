@@ -1,15 +1,26 @@
 import getWindow from "./static/getWindow";
 
-import Clip from "./components/Clip.js";
-import Component from "./components/Component.js";
-import KeyboardEventManager from "./components/KeyboardEventManager.js";
-import {EventCodes, EventKeys, EventCodesNames, EventKeysNames} from "./components/KeyboardEventManager.js";
-import MoveClip from "./components/MoveClip.js";
-import Scene from "./components/Scene.js";
-import StepsScene from "./components/StepsScene.js";
-import Timer from "./components/Timer.js";
-import RoxyListener from "./components/RoxyListener.js";
-import Roxy from "./components/Roxy.js";
+import Clip from "./components/Clip";
+import Component from "./components/Component";
+import ComponentExtended from "./components/ComponentExtended";
+import EventKeyManager from "./components/EventKeyManager";
+import {
+    KeyboardKeyCode,
+    KeyboardEventsNames,
+} from "./components/EventKeyManager";
+import KeyboardEventManager from "./components/KeyboardEventManager";
+import {
+    EventCodes,
+    EventKeys,
+    EventCodesNames,
+    EventKeysNames
+} from "./components/KeyboardEventManager";
+import MoveClip from "./components/MoveClip";
+import Scene from "./components/Scene";
+import StepsScene from "./components/StepsScene";
+import Timer from "./components/Timer";
+import RoxyListener from "./components/RoxyListener";
+import Roxy from "./components/Roxy";
 import Static from './static';
 import AnimationFrame from "./components/AnimationFrame";
 import Loader from "./components/Loader";
@@ -30,6 +41,10 @@ import Graphic from "./components/Graphic";
 const Animate = {
     Clip,
     Component,
+    ComponentExtended,
+    EventKeyManager,
+    KeyboardKeyCode,
+    KeyboardEventsNames,
     KeyboardEventManager,
     EventCodes,
     EventKeys,
